@@ -1,9 +1,9 @@
 <?php
 class Database {
     private $host = "localhost";
-    private $db_name = "YOUR DATABASE";
-    private $username = "YOUR USERNAME";
-    private $password = "YOUR PASSWORD";
+    private $db_name = "chapayom_shop";
+    private $username = "root";
+    private $password = "";
     public $conn;
 
     public function getConnection(){

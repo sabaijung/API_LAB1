@@ -19,20 +19,34 @@ $user = json_decode($content, true);
 
 $action = $user['cmd'];
 $name = $user['fullName'];
-$emaiil = $user['email'];
-$password = $user['password'];
+$email = $user['email'];
+$password = $user['password']; 
+
+/*$action = $_GET['cmd'];
+$name = $_GET['fullName'];
+$email = $_GET['email'];
+$password = $_GET['password'];*/
+
 
 switch ($action){
     case "insert" :
-        $sql = " INSERT INTO users (email, password, name) 
-                VALUES ('".$emaiil."', '".$password."', '".$name."') ";
-        $stmt = $strExe->dataTransection($sql);
-
-        if ($stmt == 1) {
-            echo json_encode(['status' => 'ok','message' => 'บันทึกข้อมูลเรียบร้อยแล้ว']);
+        $sql_chk_email = " SELECT count(email) as num_rows FROM users WHERE email = '".$email."' ";
+        $stmt_num_row = $strExe->numRow($sql_chk_email);
+       
+        if ($stmt_num_row > 0 ) {
+            echo json_encode(['status' => '1','message' => 'มีอีเมล์นี้ในระบบแล้ว!!!']);
         } else {
-            echo json_encode(['status' => 'error','message' => 'เกิดข้อผิดพลาดในการบันทึกข้อมูล']);
+            $sql = " INSERT INTO users (email, password, name) 
+                        VALUES ('".$email."', '".$password."', '".$name."') ";
+            $stmt = $strExe->dataTransection($sql);
+
+            if ($stmt == 1) {
+                echo json_encode(['status' => 'ok','message' => 'บันทึกข้อมูลเรียบร้อยแล้ว']);
+            } else {
+                echo json_encode(['status' => 'error','message' => 'เกิดข้อผิดพลาดในการบันทึกข้อมูล']);
+            }
         }
+
     break;
 
     case "select" :

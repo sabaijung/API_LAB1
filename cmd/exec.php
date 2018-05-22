@@ -43,5 +43,11 @@ class ExecSQL {
         } else { return 0; }
     }
 
+    public function numRow($sql){
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $rows = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $rows['num_rows'];
+    }
 }
 ?>
